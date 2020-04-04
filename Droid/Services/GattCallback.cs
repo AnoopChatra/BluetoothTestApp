@@ -16,8 +16,7 @@ namespace BluetoothTestApp.Droid.Services
         }
 
         public override void OnConnectionStateChange(BluetoothDevice bluetoothDevice, ProfileState status, ProfileState newState)
-        {
-            
+        {            
             base.OnConnectionStateChange(bluetoothDevice, status, newState);
             //Console.WriteLine(TAG, "onConnectionStateChange "
             //        + UARTProfile.getStatusDescription(status) + " "
@@ -25,18 +24,20 @@ namespace BluetoothTestApp.Droid.Services
 
             if (newState == ProfileState.Connected)
             {
+                Console.WriteLine(TAG + "Connected");
                 postDeviceChange(bluetoothDevice, true);
 
             }
             else if (newState == ProfileState.Disconnected)
             {
+                Console.WriteLine(TAG + "DisConnected");
                 postDeviceChange(bluetoothDevice, false);
             }
         }
 
         public override void OnServiceAdded(GattStatus status, BluetoothGattService service)
         {
-            Console.WriteLine(TAG, "Our gatt server service was added.");
+            Console.WriteLine(TAG + "Our gatt server service was added.");
             base.OnServiceAdded(status, service);
         }
 
@@ -44,7 +45,7 @@ namespace BluetoothTestApp.Droid.Services
         {
             storage = hexStringToByteArray("1111");
             base.OnCharacteristicReadRequest(device, requestId, offset, characteristic);
-            Console.WriteLine(TAG, "READ called onCharacteristicReadRequest " + characteristic.Uuid.ToString());
+            Console.WriteLine(TAG + "READ called onCharacteristicReadRequest " + characteristic.Uuid.ToString());
             if (UARTProfile.TX_READ_CHAR.Equals(characteristic.Uuid))
             {
                 MainActivity.mGattServer.SendResponse(device,
@@ -58,11 +59,10 @@ namespace BluetoothTestApp.Droid.Services
         public override void OnCharacteristicWriteRequest(BluetoothDevice device, int requestId, BluetoothGattCharacteristic characteristic, bool preparedWrite, bool responseNeeded, int offset, byte[] value)
         {
             base.OnCharacteristicWriteRequest(device, requestId, characteristic, preparedWrite, responseNeeded, offset, value);
-            Console.WriteLine(TAG, "onCharacteristicWriteRequest " + characteristic.Uuid.ToString());
+            Console.WriteLine(TAG + "onCharacteristicWriteRequest " + characteristic.Uuid.ToString());
 
             if (UARTProfile.RX_WRITE_CHAR.Equals(characteristic.Uuid))
             {
-
                 //IMP: Copy the received value to storage
                 storage = value;
                 if (responseNeeded)
@@ -74,19 +74,18 @@ namespace BluetoothTestApp.Droid.Services
                             value);
                     Console.WriteLine(TAG, "Received  data on " + characteristic.Uuid.ToString());
                     Console.WriteLine(TAG, "Received data" + bytesToHex(value));
-
                 }
 
                 //IMP: Respond
                 sendOurResponse(null);
-            }         
+            }    
 
         }
 
 
         public override void OnNotificationSent(BluetoothDevice device,GattStatus status)
         {
-            Console.WriteLine(TAG, "onNotificationSent");
+            Console.WriteLine(TAG + "onNotificationSent");
             base.OnNotificationSent(device, status);
         }
 
@@ -137,18 +136,15 @@ namespace BluetoothTestApp.Droid.Services
                     DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                     Date date = new Date();
                     notify_msg = Encoding.ASCII.GetBytes(dateFormat.Format(date));
-
                 }
                 else
                 {
                     //TODO: Do nothing send what you received. Basically echo
                 }
                 readCharacteristic.SetValue(notify_msg);
-                Console.WriteLine(TAG, "Sending Notifications" + notify_msg);
+                Console.WriteLine(TAG + "Sending Notifications" + notify_msg);
                 bool is_notified = MainActivity.mGattServer.NotifyCharacteristicChanged(device, readCharacteristic, false);
-                Console.WriteLine(TAG, "Notifications =" + is_notified);
+                Console.WriteLine(TAG + "Notifications =" + is_notified);
         }      
-
     }
-
 }

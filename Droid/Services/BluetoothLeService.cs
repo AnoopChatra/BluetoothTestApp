@@ -1,13 +1,13 @@
-﻿using System;
+﻿using System.Text;
 using Android.Bluetooth;
 using Android.Bluetooth.LE;
-using Android.OS;
 
 namespace BluetoothTestApp.Droid.Services
 {
     public class BluetoothLeService
     {
-        private static BluetoothLeService _instance = null;
+        private const int DefaultManufactureId = 0xFFFF;
+        private static readonly BluetoothLeService _instance = null;
         public static BluetoothLeService Instance {
             get
             {
@@ -55,7 +55,7 @@ namespace BluetoothTestApp.Droid.Services
             MainActivity.mGattServer.AddService(UART_SERVICE);
         }
 
-        public void StartGattAdvertising()
+        public void StartGattAdvertising(string employeeId)
         {
             if (MainActivity.mBluetoothLeAdvertiser == null) return;
 
@@ -63,13 +63,14 @@ namespace BluetoothTestApp.Droid.Services
                     .SetAdvertiseMode(AdvertiseMode.Balanced)
                     .SetConnectable(true)
                     .SetTimeout(0)
-                    .SetTxPowerLevel(AdvertiseTx.PowerMedium)
+                    .SetTxPowerLevel(AdvertiseTx.PowerLow)
                     .Build();
 
-            AdvertiseData data = new AdvertiseData.Builder()
-                    .SetIncludeDeviceName(true)
-                    .AddServiceUuid(new ParcelUuid(UARTProfile.UART_SERVICE))
-                    .Build();
+            byte[] m = Encoding.ASCII.GetBytes(employeeId);
+            AdvertiseData data = new AdvertiseData.Builder()                    
+                    .AddManufacturerData(DefaultManufactureId, m)
+                    //.AddServiceUuid(new ParcelUuid(UARTProfile.UART_SERVICE))
+                    .Build();          
 
             MainActivity.mBluetoothLeAdvertiser.StartAdvertising(settings, data, new AdvertisementCallback());
         }
@@ -78,6 +79,6 @@ namespace BluetoothTestApp.Droid.Services
         {
             if (MainActivity.mGattServer == null) return;
             MainActivity.mGattServer.Close();
-        }
+        }       
     }
 }
