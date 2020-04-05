@@ -1,19 +1,27 @@
 ﻿using System.Text;
 using Android.Bluetooth;
 using Android.Bluetooth.LE;
+using Android.Content;
+using Android.OS;
 
 namespace BluetoothTestApp.Droid.Services
 {
-    public class BluetoothLeService
+    public class BluetoothLeGattService
     {
         private const int DefaultManufactureId = 0xFFFF;
-        private static readonly BluetoothLeService _instance = null;
-        public static BluetoothLeService Instance {
+        private static readonly BluetoothLeGattService _instance = null;
+
+        private BluetoothLeAdvertiser _bluetoothLeAdvertiser;
+        private BluetoothAdapter _bluetoothAdapter;
+        private BluetoothManager _bluetoothManager;
+        private BluetoothGattServer _bluetoothGattServer;
+       
+        public static BluetoothLeGattService Instance {
             get
             {
                 if (null == _instance)
                 {
-                    return new BluetoothLeService();
+                    return new BluetoothLeGattService();
                 }
                 else
                 {
@@ -22,10 +30,22 @@ namespace BluetoothTestApp.Droid.Services
             }
         }
 
-        public BluetoothGattServer OpenGattServer()
+        private BluetoothLeGattService()
         {
-            return MainActivity.mBluetoothManager.OpenGattServer(MainActivity.ActivityContext, new GattsServerCallback());
+            _bluetoothManager = AndroidBluetoothServiceProvider.Instance.GetBluetoothManager();
+            _bluetoothAdapter = AndroidBluetoothServiceProvider.Instance.GetBluetoothAdapter();
+            _bluetoothLeAdvertiser = _bluetoothAdapter.BluetoothLeAdvertiser;
         }
+
+        public BluetoothGattServer GetBluetoothGattServer()
+        {
+            return _bluetoothGattServer;
+        }
+
+        public void OpenGattServer()
+        {
+            _bluetoothGattServer = _bluetoothManager.OpenGattServer(MainActivity.ActivityContext, new GattsServerCallback());
+        }        
 
         public void InitGattServer()
         {
@@ -52,12 +72,12 @@ namespace BluetoothTestApp.Droid.Services
             UART_SERVICE.AddCharacteristic(TX_READ_CHAR);
             UART_SERVICE.AddCharacteristic(RX_WRITE_CHAR);
 
-            MainActivity.mGattServer.AddService(UART_SERVICE);
+            _bluetoothGattServer.AddService(UART_SERVICE);
         }
 
-        public void StartGattAdvertising(string employeeId)
+        public void StartGattAdvertising(string advertisementData)
         {
-            if (MainActivity.mBluetoothLeAdvertiser == null) return;
+            if (_bluetoothLeAdvertiser == null) return;
 
             AdvertiseSettings settings = new AdvertiseSettings.Builder()
                     .SetAdvertiseMode(AdvertiseMode.Balanced)
@@ -66,19 +86,19 @@ namespace BluetoothTestApp.Droid.Services
                     .SetTxPowerLevel(AdvertiseTx.PowerLow)
                     .Build();
 
-            byte[] m = Encoding.ASCII.GetBytes(employeeId);
+            byte[] adData = Encoding.ASCII.GetBytes(advertisementData);
             AdvertiseData data = new AdvertiseData.Builder()                    
-                    .AddManufacturerData(DefaultManufactureId, m)
-                    //.AddServiceUuid(new ParcelUuid(UARTProfile.UART_SERVICE))
+                    .AddManufacturerData(DefaultManufactureId, adData)
+                    .AddServiceUuid(new ParcelUuid(UARTProfile.UART_SERVICE))
                     .Build();          
 
-            MainActivity.mBluetoothLeAdvertiser.StartAdvertising(settings, data, new AdvertisementCallback());
+            _bluetoothLeAdvertiser.StartAdvertising(settings, data, new AdvertisementCallback());
         }
 
         public void CloseGattServer()
         {
-            if (MainActivity.mGattServer == null) return;
-            MainActivity.mGattServer.Close();
+            if (_bluetoothGattServer == null) return;
+            _bluetoothGattServer.Close();
         }       
     }
 }

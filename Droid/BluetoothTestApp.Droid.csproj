@@ -53,10 +53,12 @@
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\BluetoothLeService.cs" />
-    <Compile Include="Services\GattCallback.cs" />
-    <Compile Include="Services\UARTProfile.cs" />
-    <Compile Include="Services\AdvertisementCallback.cs" />
+    <Compile Include="WelcomeActivity.cs" />
+    <Compile Include="Services\BluetoothLeGattServer\AdvertisementCallback.cs" />
+    <Compile Include="Services\BluetoothLeGattServer\BluetoothLeGattService.cs" />
+    <Compile Include="Services\BluetoothLeGattServer\GattServerCallback.cs" />
+    <Compile Include="Services\BluetoothLeGattServer\UARTProfile.cs" />
+    <Compile Include="Services\AndroidBluetooth\AndroidBluetoothServiceProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -74,6 +76,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />
+    <Folder Include="Services\BluetoothLeGattServer\" />
+    <Folder Include="Services\AndroidBluetooth\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

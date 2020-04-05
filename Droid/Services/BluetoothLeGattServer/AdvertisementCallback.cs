@@ -1,5 +1,4 @@
-﻿using System;
-using Android.Bluetooth.LE;
+﻿using Android.Bluetooth.LE;
 
 namespace BluetoothTestApp.Droid.Services
 {

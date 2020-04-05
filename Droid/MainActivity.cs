@@ -12,15 +12,10 @@ namespace BluetoothTestApp.Droid
     [Activity(Label = "BluetoothTestApp", MainLauncher = true, Icon = "@mipmap/icon")]
     public class MainActivity : Activity
     {
-        public static Context ActivityContext= null;
-        public static BluetoothLeAdvertiser mBluetoothLeAdvertiser;
-        public static BluetoothGattServer mGattServer;
-        public static BluetoothManager mBluetoothManager;
+        public static Context ActivityContext= null;     
 
-        private BluetoothAdapter mBluetoothAdapter;
-       
-
-        private BluetoothLeService mbluetoothLeService;
+        private BluetoothAdapter _bluetoothAdapter; 
+        private BluetoothLeGattService _bluetoothLeService;
 
         private IList<BluetoothDevice> mConnectedDevices;
         private ArrayAdapter<BluetoothDevice> mConnectedDevicesAdapter;
@@ -34,10 +29,8 @@ namespace BluetoothTestApp.Droid
 
             ActivityContext = this;
 
-            mBluetoothManager = (BluetoothManager)GetSystemService(BluetoothService);
-            mBluetoothAdapter = mBluetoothManager.Adapter;
-            mBluetoothLeAdvertiser = mBluetoothAdapter.BluetoothLeAdvertiser;
-            mbluetoothLeService = BluetoothLeService.Instance;
+            _bluetoothAdapter = AndroidBluetoothServiceProvider.Instance.GetBluetoothAdapter();           
+            _bluetoothLeService = BluetoothLeGattService.Instance;
         }
 
         protected override void OnResume()
@@ -46,7 +39,7 @@ namespace BluetoothTestApp.Droid
             /*
              * Make sure bluettoth is enabled
              */
-            if (mBluetoothAdapter == null || !mBluetoothAdapter.IsEnabled)
+            if (_bluetoothAdapter == null || !_bluetoothAdapter.IsEnabled)
             {
                 //Bluetooth is disabled
                 Intent enableBtIntent = new Intent(BluetoothAdapter.ActionRequestEnable);
@@ -58,7 +51,7 @@ namespace BluetoothTestApp.Droid
             /*
              * Check for advertising support.
             */
-            if (!mBluetoothAdapter.IsMultipleAdvertisementSupported)
+            if (!_bluetoothAdapter.IsMultipleAdvertisementSupported)
             {
                 Toast.MakeText(this, "No Advertising Support.",ToastLength.Short).Show();
                 Finish();
@@ -66,9 +59,9 @@ namespace BluetoothTestApp.Droid
             }
 
             
-            mGattServer = mbluetoothLeService.OpenGattServer();           
-            mbluetoothLeService.InitGattServer();
-            mbluetoothLeService.StartGattAdvertising();
+            _bluetoothLeService.OpenGattServer();           
+            _bluetoothLeService.InitGattServer();
+            _bluetoothLeService.StartGattAdvertising("750210");
         }
 
         protected override void OnPause()

@@ -10,9 +10,10 @@ namespace BluetoothTestApp.Droid.Services
     {
         string TAG = "GattCallback";
         private byte[] storage;
+        private BluetoothGattServer _bluetoothGattServer;
        
         public GattsServerCallback()
-        {
+        {            
         }
 
         public override void OnConnectionStateChange(BluetoothDevice bluetoothDevice, ProfileState status, ProfileState newState)
@@ -21,11 +22,16 @@ namespace BluetoothTestApp.Droid.Services
             //Console.WriteLine(TAG, "onConnectionStateChange "
             //        + UARTProfile.getStatusDescription(status) + " "
             //        + UARTProfile.getStateDescription(newState));
-
+            
             if (newState == ProfileState.Connected)
             {
                 Console.WriteLine(TAG + "Connected");
                 postDeviceChange(bluetoothDevice, true);
+
+                if (null == _bluetoothGattServer)
+                {
+                    _bluetoothGattServer = BluetoothLeGattService.Instance.GetBluetoothGattServer();
+                }
 
             }
             else if (newState == ProfileState.Disconnected)
@@ -48,7 +54,7 @@ namespace BluetoothTestApp.Droid.Services
             Console.WriteLine(TAG + "READ called onCharacteristicReadRequest " + characteristic.Uuid.ToString());
             if (UARTProfile.TX_READ_CHAR.Equals(characteristic.Uuid))
             {
-                MainActivity.mGattServer.SendResponse(device,
+                _bluetoothGattServer.SendResponse(device,
                         requestId,
                         GattStatus.Success,
                         0,
@@ -67,7 +73,7 @@ namespace BluetoothTestApp.Droid.Services
                 storage = value;
                 if (responseNeeded)
                 {
-                    MainActivity.mGattServer.SendResponse(device,
+                    _bluetoothGattServer.SendResponse(device,
                             requestId,
                             GattStatus.Success,
                             0,
@@ -81,17 +87,11 @@ namespace BluetoothTestApp.Droid.Services
             }    
 
         }
-
-
+        
         public override void OnNotificationSent(BluetoothDevice device,GattStatus status)
         {
             Console.WriteLine(TAG + "onNotificationSent");
             base.OnNotificationSent(device, status);
-        }
-
-        private void postDeviceChange(BluetoothDevice device, bool toAdd)
-        {
-            //Update UI
         }
 
         //Helper function converts byte array to hex string
@@ -103,8 +103,7 @@ namespace BluetoothTestApp.Droid.Services
                 hex.AppendFormat("{0:x2}", b);
             return hex.ToString();
         }
-
-
+        
         //Helper function converts hex string into
         //byte array
         private byte[] hexStringToByteArray(string hex)
@@ -119,7 +118,7 @@ namespace BluetoothTestApp.Droid.Services
         private void sendOurResponse(BluetoothDevice device)
         {
            
-                BluetoothGattCharacteristic readCharacteristic = MainActivity.mGattServer.GetService(UARTProfile.UART_SERVICE)
+                BluetoothGattCharacteristic readCharacteristic = _bluetoothGattServer.GetService(UARTProfile.UART_SERVICE)
                         .GetCharacteristic(UARTProfile.TX_READ_CHAR);
 
                 byte[] notify_msg = storage;
@@ -143,8 +142,13 @@ namespace BluetoothTestApp.Droid.Services
                 }
                 readCharacteristic.SetValue(notify_msg);
                 Console.WriteLine(TAG + "Sending Notifications" + notify_msg);
-                bool is_notified = MainActivity.mGattServer.NotifyCharacteristicChanged(device, readCharacteristic, false);
+                bool is_notified = _bluetoothGattServer.NotifyCharacteristicChanged(device, readCharacteristic, false);
                 Console.WriteLine(TAG + "Notifications =" + is_notified);
-        }      
+        }
+
+        private void postDeviceChange(BluetoothDevice device, bool toAdd)
+        {
+            //Update UI
+        }
     }
 }
