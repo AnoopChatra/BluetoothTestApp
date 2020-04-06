@@ -17,6 +17,7 @@ namespace BluetoothTestApp.Droid.Services.BluetoothLeClient
         private readonly BluetoothAdapter _bluetoothAdapter;
         private BluetoothLeScanCallback _bluetoothLeScanCallback;
         private IList<int> _employeeIdList;
+        private IList<IBleDeviceScanResult> _lisenerList;
 
         public static BluetoothLEClientService Instance
         {
@@ -38,6 +39,7 @@ namespace BluetoothTestApp.Droid.Services.BluetoothLeClient
             _bluetoothAdapter = AndroidBluetoothServiceProvider.Instance.GetBluetoothAdapter();
             _bluetoothLeScanCallback = new BluetoothLeScanCallback();
             _employeeIdList = new List<int>();
+            _lisenerList = new List<IBleDeviceScanResult>();
         }
 
         public void StartBluetoothLeScan()
@@ -52,6 +54,11 @@ namespace BluetoothTestApp.Droid.Services.BluetoothLeClient
             _bluetoothAdapter.BluetoothLeScanner.StopScan(_bluetoothLeScanCallback);
         }
 
+        public void RegisterOberver(IBleDeviceScanResult listener)
+        {
+            _lisenerList.Add(listener);
+        }
+
         private void BleScancallback(object sender, BleScanCallbackEventArgs eventArgs)
         {
             byte[] maufactureData = eventArgs.ScanResult.ScanRecord.GetManufacturerSpecificData(0); 
@@ -60,10 +67,14 @@ namespace BluetoothTestApp.Droid.Services.BluetoothLeClient
             if (!_employeeIdList.Contains(employeeId))
             {
                 _employeeIdList.Add(employeeId);
+
+                foreach(var m in _lisenerList)
+                {
+                    m.OnNewBleDeviceFound(employeeId);
+                }
             }            
         }
-       
-
+      
         private IList<ScanFilter> GetScanFilters()
         {
             IList<ScanFilter> filterList = new List<ScanFilter>();

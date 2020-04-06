@@ -12,11 +12,12 @@ using Android.Content.PM;
 using BluetoothTestApp.Droid.Services.BluetoothLeClient;
 using BluetoothTestApp.Droid.Views;
 using BluetoothTestApp.Droid.Views.ViewAdapter;
+using BluetoothTestApp.Droid.Services.Uitilities;
 
 namespace BluetoothTestApp.Droid
 {
-    [Activity(Label = "BluetoothTestApp", MainLauncher = true, Icon = "@mipmap/icon")]
-    public class MainActivity : Activity
+    [Activity(Label = "BluetoothTestApp")]
+    public class MainActivity : Activity, IBleDeviceScanResult
     {
         public static Context ActivityContext= null;
         private const int Request_Fine_Location = 0;
@@ -54,6 +55,8 @@ namespace BluetoothTestApp.Droid
             _bluetoothAdapter = AndroidBluetoothServiceProvider.Instance.GetBluetoothAdapter();           
             _bluetoothLeService = BluetoothLeGattService.Instance;
             _bluetoothLeclintService = BluetoothLEClientService.Instance;
+
+            _bluetoothLeclintService.RegisterOberver((IBleDeviceScanResult)this);
 
             UpdateUi();
         }
@@ -147,6 +150,12 @@ namespace BluetoothTestApp.Droid
             {
                 _bluetoothLeclintService.StartBluetoothLeScan();
             }
+        }
+
+        public void OnNewBleDeviceFound(int employeeId)
+        {
+            _employeeListViewItemList.Add(new EmployeeListViewItem(employeeId.ToString(), "10.30"));
+            UpdateUi();
         }
     }
 }

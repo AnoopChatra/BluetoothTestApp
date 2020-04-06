@@ -155,6 +155,7 @@
     <Compile Include="Services\Uitilities\BleScanCallbackEventArgs.cs" />
     <Compile Include="Views\ViewAdapter\EmployeeListViewItem.cs" />
     <Compile Include="Views\ViewAdapter\EmployeeNearByListViewAdapter.cs" />
+    <Compile Include="Services\Uitilities\IBleDeviceScanResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
