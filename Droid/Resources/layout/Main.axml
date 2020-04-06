@@ -3,10 +3,20 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <View android:id="@+id/myButton"
+    <View 
         android:layout_width="match_parent"
         android:layout_height="10dp"
         android:background="@color/accent_material_light" />
+
+      <TextView
+        android:id="@+id/tvNoData"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:text="No data found"
+        android:textStyle="bold"
+        android:textSize="18sp"/>
+        android:textColor="@android:color/holo_red_dark"/>
     <ListView
         android:id="@+id/lvNearByEmployee"
         android:layout_width="wrap_content"
@@ -15,10 +25,6 @@
         android:visibility="gone"
         android:background="@color/material_grey_50"/>
 
-    <TextView
-        android:id="@+id/tvNoData"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_vertical"/>
+  
 </LinearLayout>
  

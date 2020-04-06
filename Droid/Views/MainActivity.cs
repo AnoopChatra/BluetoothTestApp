@@ -16,7 +16,7 @@ using BluetoothTestApp.Droid.Services.Uitilities;
 
 namespace BluetoothTestApp.Droid
 {
-    [Activity(Label = "BluetoothTestApp")]
+    [Activity(Label = "Contacts")]
     public class MainActivity : Activity, IBleDeviceScanResult
     {
         public static Context ActivityContext= null;
@@ -133,7 +133,7 @@ namespace BluetoothTestApp.Droid
                 _tvNoData.Visibility = Android.Views.ViewStates.Gone;
                 if (null == _employeeNearByListViewAdapter)
                 {
-                    _employeeListViewItemList.Add(new EmployeeListViewItem(_empList[0].ToString(), "10.30"));
+                    _employeeListViewItemList.Add(new EmployeeListViewItem("Employee Id : " + _empList[0].ToString(), "Timestamp : 10.30 am 06/04/2020"));
                     _employeeNearByListViewAdapter = new EmployeeNearByListViewAdapter(this, _employeeListViewItemList);
                     _lvEmployeeNearBy.Adapter = _employeeNearByListViewAdapter;
                 }
@@ -142,7 +142,7 @@ namespace BluetoothTestApp.Droid
                     _employeeListViewItemList.Clear();
                     for(int i = 0; i < _empList.Count; i++)
                     {
-                        _employeeListViewItemList.Add(new EmployeeListViewItem(_empList[i].ToString(), "10.30 am"));
+                        _employeeListViewItemList.Add(new EmployeeListViewItem("Employee Id : " + _empList[i].ToString(), "TimeStap : 10.30 am 06/04/2020"));
                     }
 
                     _employeeNearByListViewAdapter.NotifyDataSetChanged();

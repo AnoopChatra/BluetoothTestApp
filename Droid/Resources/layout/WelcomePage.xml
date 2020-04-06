@@ -8,7 +8,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:text="Enter your 4 digit EmployeeId" />
+        android:text="Enter your Employee-Id"
+        android:textStyle="bold"
+        android:textSize="18sp"/>
 
     <EditText
         android:id="@+id/etEmployeeId"
@@ -25,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/etEmployeeId"
         android:layout_marginTop="10dp"
-        android:text="View Near By" />
+        android:text="View contacts" />
 
 </RelativeLayout>
        
