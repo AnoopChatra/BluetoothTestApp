@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using Android.Bluetooth;
 using Android.Bluetooth.LE;
 using Android.Content;
@@ -8,7 +9,7 @@ namespace BluetoothTestApp.Droid.Services
 {
     public class BluetoothLeGattService
     {
-        private const int DefaultManufactureId = 0xFFFF;
+        private const int DefaultManufactureId = 0x0000;
         private static readonly BluetoothLeGattService _instance = null;
 
         private BluetoothLeAdvertiser _bluetoothLeAdvertiser;
@@ -75,7 +76,7 @@ namespace BluetoothTestApp.Droid.Services
             _bluetoothGattServer.AddService(UART_SERVICE);
         }
 
-        public void StartGattAdvertising(string advertisementData)
+        public void StartGattAdvertising(int advertisementData)
         {
             if (_bluetoothLeAdvertiser == null) return;
 
@@ -86,7 +87,7 @@ namespace BluetoothTestApp.Droid.Services
                     .SetTxPowerLevel(AdvertiseTx.PowerLow)
                     .Build();
 
-            byte[] adData = Encoding.ASCII.GetBytes(advertisementData);
+            byte[] adData = BitConverter.GetBytes(advertisementData); //advertisementData
             AdvertiseData data = new AdvertiseData.Builder()                    
                     .AddManufacturerData(DefaultManufactureId, adData)
                     .AddServiceUuid(new ParcelUuid(UARTProfile.UART_SERVICE))
