@@ -28,11 +28,14 @@ namespace BluetoothTestApp.Droid
         private BluetoothLEClientService _bluetoothLeclintService;
         private EmployeeNearByListViewAdapter _employeeNearByListViewAdapter;
         private IList<EmployeeListViewItem> _employeeListViewItemList;
+        private IList<int> _empList;
 
         private ListView _lvEmployeeNearBy;
         private TextView _tvNoData;
 
         private bool _isbleOperationStarted;
+
+
 
         private IList<BluetoothDevice> mConnectedDevices;
         private ArrayAdapter<BluetoothDevice> mConnectedDevicesAdapter;
@@ -55,6 +58,8 @@ namespace BluetoothTestApp.Droid
             _bluetoothAdapter = AndroidBluetoothServiceProvider.Instance.GetBluetoothAdapter();           
             _bluetoothLeService = BluetoothLeGattService.Instance;
             _bluetoothLeclintService = BluetoothLEClientService.Instance;
+
+            _empList = new List<int>();
 
             _bluetoothLeclintService.RegisterOberver((IBleDeviceScanResult)this);
 
@@ -117,7 +122,7 @@ namespace BluetoothTestApp.Droid
 
         private void UpdateUi()
         {
-            if (_employeeListViewItemList.Count == 0)
+            if (_empList.Count == 0)
             {
                 _lvEmployeeNearBy.Visibility = Android.Views.ViewStates.Gone;
                 _tvNoData.Visibility = Android.Views.ViewStates.Visible;
@@ -128,12 +133,18 @@ namespace BluetoothTestApp.Droid
                 _tvNoData.Visibility = Android.Views.ViewStates.Gone;
                 if (null == _employeeNearByListViewAdapter)
                 {
+                    _employeeListViewItemList.Add(new EmployeeListViewItem(_empList[0].ToString(), "10.30"));
                     _employeeNearByListViewAdapter = new EmployeeNearByListViewAdapter(this, _employeeListViewItemList);
                     _lvEmployeeNearBy.Adapter = _employeeNearByListViewAdapter;
                 }
                 else
                 {
                     _employeeListViewItemList.Clear();
+                    for(int i = 0; i < _empList.Count; i++)
+                    {
+                        _employeeListViewItemList.Add(new EmployeeListViewItem(_empList[i].ToString(), "10.30 am"));
+                    }
+
                     _employeeNearByListViewAdapter.NotifyDataSetChanged();
                 }
             }
@@ -154,9 +165,12 @@ namespace BluetoothTestApp.Droid
 
         public void OnNewBleDeviceFound(int employeeId)
         {
-            _employeeListViewItemList.Add(new EmployeeListViewItem(employeeId.ToString(), "10.30"));
+            _empList.Add(employeeId);
+           
             UpdateUi();
         }
+
+
     }
 }
 
