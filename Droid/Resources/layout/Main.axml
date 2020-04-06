@@ -8,9 +8,17 @@
         android:layout_height="10dp"
         android:background="@color/accent_material_light" />
     <ListView
+        android:id="@+id/lvNearByEmployee"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@color/material_grey_100"
-        android:background="?android:attr/listViewWhiteStyle"/>
+        android:visibility="gone"
+        android:background="@color/material_grey_50"/>
+
+    <TextView
+        android:id="@+id/tvNoData"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"/>
 </LinearLayout>
  
