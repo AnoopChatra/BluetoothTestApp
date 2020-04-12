@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Android.Bluetooth;
 using Android.Bluetooth.LE;
 using Android.OS;
@@ -15,12 +16,14 @@ namespace BluetoothTestApp.Droid.Services.BluetoothLeClient
         private static readonly BluetoothLEClientService _instance = null;
 
         private readonly BluetoothAdapter _bluetoothAdapter;
+        private Handler _handler;
 
         private BluetoothLeScanCallback _bluetoothLeScanCallback;
         private IList<int> _employeeIdList;
         private IList<IBleDeviceScanResult> _lisenerList;
         private int _employeeId;
         private RestQueueService _restQueueService;
+        private RestService _restService;
         private IDictionary<int, int> detailDictionary = new Dictionary<int, int>();
 
         public static BluetoothLEClientService Instance
@@ -42,16 +45,20 @@ namespace BluetoothTestApp.Droid.Services.BluetoothLeClient
         {
             _bluetoothAdapter = AndroidBluetoothServiceProvider.Instance.GetBluetoothAdapter();
             _bluetoothLeScanCallback = new BluetoothLeScanCallback();
-            _restQueueService = new RestQueueService();
+            //_restQueueService = new RestQueueService();
             _employeeIdList = new List<int>();
+            _restService = new RestService();
             _lisenerList = new List<IBleDeviceScanResult>();
+            _handler = new Handler(MainActivity.ActivityContext.MainLooper);
         }
 
         public void StartBluetoothLeScan(int employeeId)
         {
+            _handler.RemoveCallbacksAndMessages(null);
             _employeeId = employeeId;
             _bluetoothLeScanCallback.OnBleScanCallback += BleScancallback;
             _bluetoothAdapter.BluetoothLeScanner.StartScan(GetScanFilters(), GetScansettings(), _bluetoothLeScanCallback);
+            _handler.PostDelayed(RestartScanning, 28000);
         }
 
         public void StopBluetoothLeScan()
@@ -63,6 +70,13 @@ namespace BluetoothTestApp.Droid.Services.BluetoothLeClient
         public void RegisterOberver(IBleDeviceScanResult listener)
         {
             _lisenerList.Add(listener);
+        }
+
+        private void RestartScanning()
+        {
+            StopBluetoothLeScan();
+            Task.Delay(2000);
+            StartBluetoothLeScan(_employeeId);
         }
 
         private void BleScancallback(object sender, BleScanCallbackEventArgs eventArgs)
@@ -90,7 +104,8 @@ namespace BluetoothTestApp.Droid.Services.BluetoothLeClient
                     SignialStrength = eventArgs.ScanResult.Rssi,
                     TimeStamp = DateTime.Now
                 };
-                _restQueueService.EnqueueContactDetail(contactDetail);
+                _restService.SaveContactDetail(contactDetail);
+                //_restQueueService.EnqueueContactDetail(contactDetail);
             }          
         }
       

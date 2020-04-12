@@ -42,7 +42,7 @@ namespace BluetoothTestApp.Services
 
             while(null != contactDetail)
             {
-                await _restService.SaveContactDetail(contactDetail);              
+                await _restService.SaveContactDetailAsync(contactDetail);              
                 contactDetail = DequeueContactDetail();
             }
         }

@@ -12,6 +12,7 @@ using BluetoothTestApp.Droid.Services.BluetoothLeClient;
 using BluetoothTestApp.Droid.Views;
 using BluetoothTestApp.Droid.Views.ViewAdapter;
 using BluetoothTestApp.Droid.Services.Uitilities;
+using Android.Net;
 
 namespace BluetoothTestApp.Droid
 {
@@ -152,6 +153,7 @@ namespace BluetoothTestApp.Droid
             }
             else
             {
+                RequestBatteryOptimizationExclude();
                 _bluetoothLeclintService.StartBluetoothLeScan(employeeId);
             }
         }
@@ -160,6 +162,13 @@ namespace BluetoothTestApp.Droid
         {
             _empList.Add(employeeId);           
             UpdateUi();
+        }
+
+        private void RequestBatteryOptimizationExclude()
+        {
+            Intent intent = new Intent(Android.Provider.Settings.ActionRequestIgnoreBatteryOptimizations);
+            intent.SetData(Uri.Parse("package:com.audiology.bluetoothtestapp"));
+            StartActivity(intent);
         }
     }
 }
