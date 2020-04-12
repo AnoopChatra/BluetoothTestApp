@@ -2,7 +2,6 @@
 using Android.Widget;
 using Android.OS;
 using Android.Bluetooth;
-using Android.Bluetooth.LE;
 using System.Collections.Generic;
 using Android.Content;
 using BluetoothTestApp.Droid.Services;
@@ -34,11 +33,6 @@ namespace BluetoothTestApp.Droid
         private TextView _tvNoData;
 
         private bool _isbleOperationStarted;
-
-
-
-        private IList<BluetoothDevice> mConnectedDevices;
-        private ArrayAdapter<BluetoothDevice> mConnectedDevicesAdapter;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -111,7 +105,7 @@ namespace BluetoothTestApp.Droid
             {
                 if (grantResults[0] == Permission.Granted)
                 {
-                    _bluetoothLeclintService.StartBluetoothLeScan();
+                    _bluetoothLeclintService.StartBluetoothLeScan(employeeId);
                 }
                 else
                 {
@@ -154,23 +148,19 @@ namespace BluetoothTestApp.Droid
         {
             if (ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessFineLocation) != (int)Permission.Granted)
             {
-                // Camera permission has not been granted
                 ActivityCompat.RequestPermissions(this, new string[] { Manifest.Permission.AccessFineLocation }, Request_Fine_Location);
             }
             else
             {
-                _bluetoothLeclintService.StartBluetoothLeScan();
+                _bluetoothLeclintService.StartBluetoothLeScan(employeeId);
             }
         }
 
         public void OnNewBleDeviceFound(int employeeId)
         {
-            _empList.Add(employeeId);
-           
+            _empList.Add(employeeId);           
             UpdateUi();
         }
-
-
     }
 }
 

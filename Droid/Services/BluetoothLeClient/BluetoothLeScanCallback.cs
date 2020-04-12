@@ -1,5 +1,4 @@
 ﻿using System;
-using Android.Bluetooth;
 using Android.Bluetooth.LE;
 using BluetoothTestApp.Droid.Services.Uitilities;
 
@@ -14,10 +13,8 @@ namespace BluetoothTestApp.Droid.Services.BluetoothLeClient
         }
 
         public override void OnScanResult(ScanCallbackType callbackType, ScanResult result)
-        {
-            
-                OnBleScanCallback?.Invoke(this, new BleScanCallbackEventArgs(result));
-            
+        {            
+            OnBleScanCallback?.Invoke(this, new BleScanCallbackEventArgs(result));            
         }
     }
 }
