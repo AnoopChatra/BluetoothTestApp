@@ -14,7 +14,6 @@ using BluetoothTestApp.Droid.Views.ViewAdapter;
 using BluetoothTestApp.Droid.Services.Uitilities;
 using Android.Net;
 
-
 namespace BluetoothTestApp.Droid
 {
     [Activity(Label = "Contacts")]
