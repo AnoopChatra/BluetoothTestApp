@@ -102,7 +102,7 @@ namespace BluetoothTestApp.Droid.Services.BluetoothLeClient
                     SourceEmployeeId = _employeeId,
                     ContactEmployeeId = contactEmployeeId,
                     SignialStrength = eventArgs.ScanResult.Rssi,
-                    TimeStamp = DateTime.Now
+                    TimeStamp = DateTime.Now.ToString()
                 };
                 _restService.SaveContactDetail(contactDetail);
                 //_restQueueService.EnqueueContactDetail(contactDetail);

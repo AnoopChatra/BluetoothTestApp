@@ -106,6 +106,7 @@ namespace BluetoothTestApp.Droid
             {
                 if (grantResults[0] == Permission.Granted)
                 {
+                    RequestBatteryOptimizationExclude();
                     _bluetoothLeclintService.StartBluetoothLeScan(employeeId);
                 }
                 else
