@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+  <color name="colorPrimary">#ffff8800</color>
+  <color name="colorPrimaryDark">#ffff8800</color>
+  <color name="colorAccent">#FF4081</color>
+  <color name="red">#ff0000</color>
+  <color name="black">#000000</color>
+  <color name="green">#008000</color>
+  <color name="darker_gray">#aaaaaa</color>
+  <color name="PageIndicator_Circle">#C6C6C6</color>
+  <color name="PageIndicator_SelectedCircle">#15a2ac</color>
+  <color name="App_BackgroundColor">#f2f4f5</color>
+  <color name="App_Color">#15a2ac</color>
+  <color name="Button_Color">#15a2ac</color>
+  <color name="Button_Color_white">#FFFFFF</color>
+</resources>

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+  <style name="ActionBarTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
+    <item name="windowActionBar">false</item>
+    <item name="windowNoTitle">true</item>
+    <item name="android:windowContentOverlay">@null</item>
+    <item name="android:statusBarColor">@color/App_BackgroundColor</item>
+  </style>
+  <style name="ButtonStyle">
+    <item name="android:paddingTop">@dimen/Button_Padding_Top_Bottom</item>
+    <item name="android:paddingBottom">@dimen/Button_Padding_Top_Bottom</item>
+  </style>
+</resources>

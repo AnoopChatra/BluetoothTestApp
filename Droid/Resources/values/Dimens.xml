@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+  <dimen name="PageIndicator_Radius">8dp</dimen>
+  <dimen name="Button_Width">250dp</dimen>
+  <dimen name="Button_Padding_Top_Bottom">15dp</dimen>
+
+</resources>

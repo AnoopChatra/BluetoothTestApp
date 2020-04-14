@@ -5,7 +5,6 @@ using Android.Bluetooth;
 using System.Collections.Generic;
 using Android.Content;
 using BluetoothTestApp.Droid.Services;
-using Android.Support.V4.App;
 using Android;
 using Android.Content.PM;
 using BluetoothTestApp.Droid.Services.BluetoothLeClient;
@@ -13,6 +12,7 @@ using BluetoothTestApp.Droid.Views;
 using BluetoothTestApp.Droid.Views.ViewAdapter;
 using BluetoothTestApp.Droid.Services.Uitilities;
 using Android.Net;
+using AndroidX.Core.App;
 
 
 namespace BluetoothTestApp.Droid
@@ -79,12 +79,12 @@ namespace BluetoothTestApp.Droid
                 }
 
 
-                if (!_bluetoothAdapter.IsMultipleAdvertisementSupported)
-                {
-                    Toast.MakeText(this, "No Advertising Support.", ToastLength.Short).Show();
-                    Finish();
-                    return;
-                }
+                //if (!_bluetoothAdapter.IsMultipleAdvertisementSupported)
+                //{
+                //    Toast.MakeText(this, "No Advertising Support.", ToastLength.Short).Show();
+                //    Finish();
+                //    return;
+                //}
 
                 _bluetoothLeService.OpenGattServer();
                 _bluetoothLeService.InitGattServer();

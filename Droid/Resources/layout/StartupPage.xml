@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:gravity="center"
+  android:weightSum="2"
+  android:background="@color/App_BackgroundColor"
+  android:orientation="vertical"
+  tools:context=".MainActivity">
+        
+  <LinearLayout
+    android:id="@+id/layoutTop"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1.5"
+    android:orientation="vertical">
+
+    <androidx.viewpager.widget.ViewPager
+    android:id="@+id/viewpager"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    android:clipToPadding="false"/>
+
+  <LinearLayout
+    android:id="@+id/layout_dot"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:layout_marginBottom="20dp"
+    android:gravity="center"
+    android:orientation="horizontal">
+  </LinearLayout>
+  </LinearLayout>
+  <LinearLayout
+    android:id="@+id/layoutButton"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight=".5"
+    android:orientation="vertical">
+  <Button
+   android:layout_width="@dimen/Button_Width"
+   android:layout_height="wrap_content"
+    android:id="@+id/buttonRegistration"
+      style="@style/ButtonStyle"
+      android:layout_gravity="center"
+      android:background="@drawable/button_rounded_corner"
+      android:text="Registration"/>
+  <Button
+    android:layout_width="@dimen/Button_Width"
+    android:layout_height="wrap_content"
+    android:id="@+id/buttonLogin"
+    style="@style/ButtonStyle"
+    android:layout_gravity="center"
+    android:background="@drawable/button_rounded_corner_with_border"
+    android:layout_marginTop="15dp"
+    android:text="Login"/>
+  </LinearLayout>
+
+
+     
+</LinearLayout>
