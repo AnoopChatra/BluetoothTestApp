@@ -1,7 +1,7 @@
 ﻿using System;
 using Android.Bluetooth.LE;
 
-namespace BluetoothTestApp.Droid.Services.Uitilities
+namespace BluetoothTestApp.Droid.Services
 {
     public class BleScanCallbackEventArgs : EventArgs
     {

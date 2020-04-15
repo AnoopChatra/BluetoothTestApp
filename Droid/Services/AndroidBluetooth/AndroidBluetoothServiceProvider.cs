@@ -33,7 +33,7 @@ namespace BluetoothTestApp.Droid.Services
         {
             if(null == _bluetoothManager)
             {
-               return (BluetoothManager)MainActivity.ActivityContext.GetSystemService(Context.BluetoothService);
+               return _bluetoothManager = (BluetoothManager)MainActivity.ActivityContext.GetSystemService(Context.BluetoothService);
             }
             else
             {
@@ -51,7 +51,7 @@ namespace BluetoothTestApp.Droid.Services
                 }
                 else
                 {
-                    return _bluetoothManager.Adapter;
+                    return _bluetoothAdapter = _bluetoothManager.Adapter;
                 }                
             }
             else

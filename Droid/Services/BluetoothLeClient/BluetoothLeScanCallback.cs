@@ -1,16 +1,11 @@
 ﻿using System;
 using Android.Bluetooth.LE;
-using BluetoothTestApp.Droid.Services.Uitilities;
 
-namespace BluetoothTestApp.Droid.Services.BluetoothLeClient
+namespace BluetoothTestApp.Droid.Services
 {
     public class BluetoothLeScanCallback : ScanCallback
     {
         public EventHandler<BleScanCallbackEventArgs> OnBleScanCallback;
-
-        public BluetoothLeScanCallback()
-        {
-        }
 
         public override void OnScanResult(ScanCallbackType callbackType, ScanResult result)
         {            

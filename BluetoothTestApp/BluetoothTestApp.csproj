@@ -27,12 +27,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="MyClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\ContactDetail.cs" />
     <Compile Include="Models\ContactDetailsList.cs" />
-    <Compile Include="Services\RestService.cs" />
-    <Compile Include="Services\RestQueueService.cs" />
     <Compile Include="Models\AuthRequestBody.cs" />
     <Compile Include="Models\MindSphereAccessToken.cs" />
     <Compile Include="Models\OrganizationLocationData.cs" />
@@ -43,6 +40,8 @@
     <Compile Include="Services\ApiServices\EmployeeService.cs" />
     <Compile Include="Services\ApiServices\ProximityServices.cs" />
     <Compile Include="Services\MindsphereAuthService\MindsphereAuthService.cs" />
+    <Compile Include="Services\DeprecatedServices\RestQueueService.cs" />
+    <Compile Include="Services\DeprecatedServices\RestService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />
@@ -50,6 +49,7 @@
     <Folder Include="Services\HttpService\" />
     <Folder Include="Services\ApiServices\" />
     <Folder Include="Services\MindsphereAuthService\" />
+    <Folder Include="Services\DeprecatedServices\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

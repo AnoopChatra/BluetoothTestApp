@@ -11,9 +11,10 @@ namespace BluetoothTestApp.Services
 {
     public class HttpService
     {
-        private readonly HttpClient _httpClient;
+        private HttpClient _httpClient;   
+        
         private const string Logtag = "HttpService";
-        private readonly object _lockObject;
+        private bool _isRefreshTokenCalled;
 
         private static HttpService _httpServiceInstance;
         public static HttpService Instance
@@ -31,26 +32,20 @@ namespace BluetoothTestApp.Services
             }
         }           
 
-        private HttpService()
-        {
-            _httpClient = new HttpClient();
-        }
-
-        public async Task<HttpStatusCode> Post(string url, object body)
+        public async Task<HttpStatusCode> PostAsync(string url, object body)
         {
             try
-            {
+            {               
                 var uri = new Uri(string.Format(url, string.Empty));
                 var json = JsonConvert.SerializeObject(body);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                _httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + MindsphereAuthService.Instance.AccessToken);
-                
+                                
                 HttpResponseMessage response = await _httpClient.PostAsync(uri, content);
 
                 if(HttpStatusCode.Unauthorized == response.StatusCode)
                 {
                     await RefreshToken(response);
-                    await Post(url, body);                   
+                    await PostAsync(url, body);                   
                 }
                 return response.StatusCode;
             }
@@ -59,6 +54,25 @@ namespace BluetoothTestApp.Services
                 Debug.WriteLine(Logtag + "-- exception in post --" + exception.Message + exception.StackTrace);
             }
             return HttpStatusCode.BadRequest;
+        }
+
+        public void Post(string url, object body)
+        {
+            try
+            {
+                ////TODO : need to await the call ideally.
+                RefreshToken();
+                var uri = new Uri(string.Format(url, string.Empty));
+                var json = JsonConvert.SerializeObject(body);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var htpcl = GetHttpClient();
+                var m = await htpcl.PostAsync(uri, content);               
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine(Logtag + "-- exception in post --" + exception.Message + exception.StackTrace);
+            }           
         }
 
         private async Task RefreshToken(HttpResponseMessage response)
@@ -70,5 +84,33 @@ namespace BluetoothTestApp.Services
                 await MindsphereAuthService.Instance.GenerateAccessToken();               
             }
         }
+
+        private HttpClient GetHttpClient()
+        {
+            if(null == _httpClient)
+            {
+                _httpClient = new HttpClient();
+                _httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + MindsphereAuthService.Instance.AccessToken);
+                return _httpClient;
+            }
+            else
+            {
+                return _httpClient;
+            }
+        }
+
+        private async Task RefreshToken()
+        {
+            if (!_isRefreshTokenCalled)
+            {
+                _isRefreshTokenCalled = true;
+                TimeSpan timeSpan = DateTime.Now - MindsphereAuthService.Instance.AccessTokenTimeStamp;
+                if (timeSpan.Minutes > 25)
+                {
+                    await MindsphereAuthService.Instance.GenerateAccessToken();
+                }
+                _isRefreshTokenCalled = false;
+            }
+        }        
     }
 }

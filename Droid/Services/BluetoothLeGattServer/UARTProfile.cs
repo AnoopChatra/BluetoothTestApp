@@ -5,10 +5,6 @@ namespace BluetoothTestApp.Droid.Services
 {
     public class UARTProfile
     {
-        public UARTProfile()
-        { 
-        }
-
         public static UUID UART_SERVICE = UUID.FromString("6e400001-b5a3-f393-e0a9-e50e24dcca9e");
 
         //RX, Write characteristic

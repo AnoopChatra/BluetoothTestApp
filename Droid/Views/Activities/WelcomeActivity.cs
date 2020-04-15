@@ -8,7 +8,7 @@ using BluetoothTestApp.Services;
 
 namespace BluetoothTestApp.Droid
 {
-    [Activity(MainLauncher = true, Label = "Details", Icon = "@mipmap/icon")]
+    [Activity(MainLauncher = true, Label = "ContactScreen", Icon = "@mipmap/icon")]
     public class WelcomeActivity : Activity
     {
         private EditText etEmployeeId;
@@ -24,7 +24,7 @@ namespace BluetoothTestApp.Droid
 
             btViewNearBy.Click += OnbtViewNearByClick;
 
-            MindsphereAuthService.Instance.GenerateAccessToken();
+            MindsphereAuthService.Instance.GenerateAccessToken().ConfigureAwait(false);
 
             Task.Delay(500);
         }

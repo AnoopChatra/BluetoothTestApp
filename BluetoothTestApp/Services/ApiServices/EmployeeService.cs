@@ -8,15 +8,16 @@ namespace BluetoothTestApp.Services
     public class EmployeeService
     {      
         private const string url = "https://gateway.eu1.mindsphere.io/api/covidbackend-ctblrdev/V1/proximity/add";
-        private HttpService _httpService;
+        private readonly HttpService _httpService;
 
         public EmployeeService()
         {
+            _httpService = HttpService.Instance;
         }
 
-        public async Task<HttpStatusCode> RegisterEmployee(Employee employee)
+        public async Task<HttpStatusCode> RegisterEmployeeAsync(Employee employee)
         {
-            return await _httpService.Post(url, employee);
+            return await _httpService.PostAsync(url, employee);
         }
     }
 }

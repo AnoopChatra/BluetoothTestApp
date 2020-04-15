@@ -4,10 +4,6 @@ namespace BluetoothTestApp.Droid.Services
 {
     public class AdvertisementCallback : AdvertiseCallback
     {
-        public AdvertisementCallback()
-        {
-        }
-
         public override void OnStartFailure(AdvertiseFailure errorCode)
         {
             base.OnStartFailure(errorCode);

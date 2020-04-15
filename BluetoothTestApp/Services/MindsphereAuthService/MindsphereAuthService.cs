@@ -48,6 +48,7 @@ namespace BluetoothTestApp.Services
         private readonly HttpClient _httpClient;
 
         public string AccessToken { get; private set; }
+        public DateTime AccessTokenTimeStamp { get; private set; }
 
         private MindsphereAuthService()
         {
@@ -78,6 +79,7 @@ namespace BluetoothTestApp.Services
                     MindSphereAccessToken mindSphereAccessToken = JsonConvert.DeserializeObject<MindSphereAccessToken>(responseBody);
                     AccessToken = mindSphereAccessToken.access_token;
                     isGeneratteAuthTokenSuccess = true;
+                    AccessTokenTimeStamp = DateTime.Now;
                 }
             }
             catch

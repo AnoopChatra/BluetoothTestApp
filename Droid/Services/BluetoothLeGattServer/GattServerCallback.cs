@@ -11,10 +11,6 @@ namespace BluetoothTestApp.Droid.Services
         string TAG = "GattCallback";
         private byte[] storage;
         private BluetoothGattServer _bluetoothGattServer;
-       
-        public GattsServerCallback()
-        {            
-        }
 
         public override void OnConnectionStateChange(BluetoothDevice bluetoothDevice, ProfileState status, ProfileState newState)
         {            

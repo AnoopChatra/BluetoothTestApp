@@ -149,14 +149,14 @@
     <Compile Include="Services\BluetoothLeGattServer\GattServerCallback.cs" />
     <Compile Include="Services\BluetoothLeGattServer\UARTProfile.cs" />
     <Compile Include="Services\AndroidBluetooth\AndroidBluetoothServiceProvider.cs" />
-    <Compile Include="Views\MainActivity.cs" />
-    <Compile Include="Views\WelcomeActivity.cs" />
     <Compile Include="Services\BluetoothLeClient\BluetoothLEClientService.cs" />
     <Compile Include="Services\BluetoothLeClient\BluetoothLeScanCallback.cs" />
     <Compile Include="Services\Uitilities\BleScanCallbackEventArgs.cs" />
     <Compile Include="Views\ViewAdapter\EmployeeListViewItem.cs" />
     <Compile Include="Views\ViewAdapter\EmployeeNearByListViewAdapter.cs" />
     <Compile Include="Services\Uitilities\IBleDeviceScanResult.cs" />
+    <Compile Include="Views\Activities\MainActivity.cs" />
+    <Compile Include="Views\Activities\WelcomeActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -189,6 +189,7 @@
     <Folder Include="Services\BluetoothLeClient\" />
     <Folder Include="Services\Uitilities\" />
     <Folder Include="Views\ViewAdapter\" />
+    <Folder Include="Views\Activities\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Annotations.28.0.0.3\build\monoandroid90\Xamarin.Android.Support.Annotations.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Annotations.28.0.0.3\build\monoandroid90\Xamarin.Android.Support.Annotations.targets')" />

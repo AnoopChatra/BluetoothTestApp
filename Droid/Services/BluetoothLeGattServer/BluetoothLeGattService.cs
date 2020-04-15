@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Text;
 using Android.Bluetooth;
 using Android.Bluetooth.LE;
-using Android.Content;
 using Android.OS;
 
 namespace BluetoothTestApp.Droid.Services

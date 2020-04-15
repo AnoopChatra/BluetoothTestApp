@@ -8,12 +8,9 @@ using BluetoothTestApp.Droid.Services;
 using Android.Support.V4.App;
 using Android;
 using Android.Content.PM;
-using BluetoothTestApp.Droid.Services.BluetoothLeClient;
 using BluetoothTestApp.Droid.Views;
 using BluetoothTestApp.Droid.Views.ViewAdapter;
-using BluetoothTestApp.Droid.Services.Uitilities;
 using Android.Net;
-
 
 namespace BluetoothTestApp.Droid
 {
