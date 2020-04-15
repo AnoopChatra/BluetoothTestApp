@@ -33,10 +33,23 @@
     <Compile Include="Models\ContactDetailsList.cs" />
     <Compile Include="Services\RestService.cs" />
     <Compile Include="Services\RestQueueService.cs" />
+    <Compile Include="Models\AuthRequestBody.cs" />
+    <Compile Include="Models\MindSphereAccessToken.cs" />
+    <Compile Include="Models\OrganizationLocationData.cs" />
+    <Compile Include="Models\ProximityData.cs" />
+    <Compile Include="Services\HttpService\HttpService.cs" />
+    <Compile Include="Models\Employee.cs" />
+    <Compile Include="Models\TokenExpired.cs" />
+    <Compile Include="Services\ApiServices\EmployeeService.cs" />
+    <Compile Include="Services\ApiServices\ProximityServices.cs" />
+    <Compile Include="Services\MindsphereAuthService\MindsphereAuthService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />
     <Folder Include="Models\" />
+    <Folder Include="Services\HttpService\" />
+    <Folder Include="Services\ApiServices\" />
+    <Folder Include="Services\MindsphereAuthService\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

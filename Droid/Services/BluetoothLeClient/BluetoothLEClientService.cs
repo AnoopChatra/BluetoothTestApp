@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Android.App;
 using Android.Bluetooth;
 using Android.Bluetooth.LE;
+using Android.Content;
 using Android.OS;
 using BluetoothTestApp.Core.Services;
 using BluetoothTestApp.Droid.Services.Uitilities;
@@ -11,7 +13,7 @@ using BluetoothTestApp.Services;
 
 namespace BluetoothTestApp.Droid.Services.BluetoothLeClient
 {
-    public class BluetoothLEClientService
+    public class BluetoothLEClientService 
     {
         private static readonly BluetoothLEClientService _instance = null;
 
@@ -22,9 +24,9 @@ namespace BluetoothTestApp.Droid.Services.BluetoothLeClient
         private IList<int> _employeeIdList;
         private IList<IBleDeviceScanResult> _lisenerList;
         private int _employeeId;
-        private RestQueueService _restQueueService;
         private RestService _restService;
         private IDictionary<int, int> detailDictionary = new Dictionary<int, int>();
+        private readonly ProximityServices _proximityServices;
 
         public static BluetoothLEClientService Instance
         {
@@ -41,15 +43,17 @@ namespace BluetoothTestApp.Droid.Services.BluetoothLeClient
             }
         }
 
+        
+
         public BluetoothLEClientService()
         {
             _bluetoothAdapter = AndroidBluetoothServiceProvider.Instance.GetBluetoothAdapter();
             _bluetoothLeScanCallback = new BluetoothLeScanCallback();
-            //_restQueueService = new RestQueueService();
             _employeeIdList = new List<int>();
             _restService = new RestService();
             _lisenerList = new List<IBleDeviceScanResult>();
             _handler = new Handler(MainActivity.ActivityContext.MainLooper);
+            _proximityServices = new ProximityServices();
         }
 
         public void StartBluetoothLeScan(int employeeId)
@@ -58,7 +62,7 @@ namespace BluetoothTestApp.Droid.Services.BluetoothLeClient
             _employeeId = employeeId;
             _bluetoothLeScanCallback.OnBleScanCallback += BleScancallback;
             _bluetoothAdapter.BluetoothLeScanner.StartScan(GetScanFilters(), GetScansettings(), _bluetoothLeScanCallback);
-            _handler.PostDelayed(RestartScanning, 28000);
+            _handler.PostDelayed(RestartScanning, 60000);
         }
 
         public void StopBluetoothLeScan()
@@ -105,7 +109,8 @@ namespace BluetoothTestApp.Droid.Services.BluetoothLeClient
                     TimeStamp = DateTime.Now.ToString()
                 };
                 _restService.SaveContactDetail(contactDetail);
-                //_restQueueService.EnqueueContactDetail(contactDetail);
+                ProximityData proximityData = GetProximityData(_employeeId, contactEmployeeId, eventArgs.ScanResult.Rssi);
+                _proximityServices.AddProximityInfo(proximityData);              
             }          
         }
       
@@ -123,7 +128,30 @@ namespace BluetoothTestApp.Droid.Services.BluetoothLeClient
         {
             return new ScanSettings.Builder()
                 .SetScanMode(Android.Bluetooth.LE.ScanMode.LowPower)
+                .SetMatchMode(BluetoothScanMatchMode.Aggressive)
                 .Build(); ;                           
         }
+
+        private ProximityData GetProximityData(int sourceEmployeeId, int destinationEmployeeId, int signal)
+        {
+            ProximityData proximityData = new ProximityData();
+            proximityData.sourceEmployeeId = sourceEmployeeId.ToString();
+            proximityData.destEmployeeId = destinationEmployeeId.ToString();
+            proximityData.signal = signal;
+
+            proximityData.distance = 0;
+            proximityData.duration = 0;
+            OrganizationLocationData orgLocationData = new OrganizationLocationData();
+            orgLocationData.building = "Keonics";
+            orgLocationData.city = "Blore";
+            orgLocationData.country = "India";
+            orgLocationData.floor = "9";
+            orgLocationData.orgUnit = "DTS";
+            orgLocationData.location = "Ecity";
+            orgLocationData.state = "Karnataka";
+            proximityData.orgLocationDataDTO = orgLocationData;
+
+            return proximityData;
+        }      
     }
 }

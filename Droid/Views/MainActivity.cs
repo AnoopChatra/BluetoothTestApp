@@ -56,7 +56,7 @@ namespace BluetoothTestApp.Droid
 
             _empList = new List<int>();
 
-            _bluetoothLeclintService.RegisterOberver((IBleDeviceScanResult)this);
+            _bluetoothLeclintService.RegisterOberver(this);
 
             UpdateUi();
         }
