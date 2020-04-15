@@ -41,11 +41,17 @@ namespace BluetoothTestApp.Services
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                                 
                 HttpResponseMessage response = await _httpClient.PostAsync(uri, content);
-
-                if(HttpStatusCode.Unauthorized == response.StatusCode)
+               
+                if (HttpStatusCode.Unauthorized == response.StatusCode)
                 {
-                    await RefreshToken(response);
-                    await PostAsync(url, body);                   
+                    var responseBody = await response.Content.ReadAsStringAsync();
+                    TokenExpired tokenExpired = JsonConvert.DeserializeObject<TokenExpired>(responseBody);
+                    if (tokenExpired.error.Equals("invalid_token"))
+                    {
+                        await MindsphereAuthService.Instance.GenerateAccessToken();
+                        ////TODO : Handle indefinite loop
+                        await PostAsync(url, body);
+                    }                                         
                 }
                 return response.StatusCode;
             }
@@ -61,7 +67,7 @@ namespace BluetoothTestApp.Services
             try
             {
                 ////TODO : need to await the call ideally.
-                RefreshToken();
+                RefreshTokenOnReguularTimeInterval();
                 var uri = new Uri(string.Format(url, string.Empty));
                 var json = JsonConvert.SerializeObject(body);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -72,17 +78,7 @@ namespace BluetoothTestApp.Services
             {
                 Debug.WriteLine(Logtag + "-- exception in post --" + exception.Message + exception.StackTrace);
             }           
-        }
-
-        private async Task RefreshToken(HttpResponseMessage response)
-        {
-            var responseBody = await response.Content.ReadAsStringAsync();
-            TokenExpired tokenExpired = JsonConvert.DeserializeObject<TokenExpired>(responseBody);
-            if (tokenExpired.error.Equals("invalid_token"))
-            {
-                await MindsphereAuthService.Instance.GenerateAccessToken();               
-            }
-        }
+        }      
 
         private HttpClient GetHttpClient()
         {
@@ -98,7 +94,7 @@ namespace BluetoothTestApp.Services
             }
         }
 
-        private async Task RefreshToken()
+        private async Task RefreshTokenOnReguularTimeInterval()
         {
             if (!_isRefreshTokenCalled)
             {

@@ -52,6 +52,7 @@ namespace BluetoothTestApp.Services
 
         private MindsphereAuthService()
         {
+            AccessToken = "qwerty"; //Initializing with dummy token
             _authRequestBodyModel = new AuthRequestBody();
             _authRequestBodyModel.appName = _appName;
             _authRequestBodyModel.appVersion = _appVersion;
