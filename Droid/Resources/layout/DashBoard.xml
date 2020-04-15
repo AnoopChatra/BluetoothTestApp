@@ -17,7 +17,7 @@
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/App_Color"
+        android:background="#3F51B5"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent=".2"
@@ -36,7 +36,6 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
         <androidx.cardview.widget.CardView
-android:id="@+id/cardViewSelfDiagnosis"
             android:layout_width="200dp"
             android:layout_height="200dp"
             app:cardElevation="10dp"

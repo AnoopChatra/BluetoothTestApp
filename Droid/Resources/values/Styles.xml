@@ -6,12 +6,6 @@
     <item name="android:windowContentOverlay">@null</item>
     <item name="android:statusBarColor">@color/App_BackgroundColor</item>
   </style>
-  <style name="ActionBarThemeWithBlue" parent="@style/Theme.AppCompat.Light.NoActionBar">
-    <item name="windowActionBar">false</item>
-    <item name="windowNoTitle">true</item>
-    <item name="android:windowContentOverlay">@null</item>
-    <item name="android:statusBarColor">@color/App_Color</item>
-  </style>
   <style name="ButtonStyle">
     <item name="android:paddingTop">@dimen/Button_Padding_Top_Bottom</item>
     <item name="android:paddingBottom">@dimen/Button_Padding_Top_Bottom</item>
