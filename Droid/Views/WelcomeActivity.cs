@@ -6,7 +6,7 @@ using Android.Widget;
 
 namespace BluetoothTestApp.Droid
 {
-    [Activity( Label = "Details", Icon = "@mipmap/icon")]
+    [Activity(Label = "Details", Icon = "@mipmap/icon")]
     public class WelcomeActivity : Activity
     {
         private EditText etEmployeeId;

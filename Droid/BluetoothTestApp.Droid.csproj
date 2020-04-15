@@ -142,6 +142,8 @@
     <Compile Include="Services\AndroidBluetooth\AndroidBluetoothServiceProvider.cs" />
     <Compile Include="Views\DashBoardActivity.cs" />
     <Compile Include="Views\MainActivity.cs" />
+    <Compile Include="Views\RegisterationActivity.cs" />
+    <Compile Include="Views\SelfDiagnosis\SlefDiagnosisActivity1.cs" />
     <Compile Include="Views\StartupActivity.cs" />
     <Compile Include="Views\ViewAdapter\Covid19InfoAdaptercs.cs" />
     <Compile Include="Views\WelcomeActivity.cs" />
@@ -160,6 +162,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />
+    <AndroidResource Include="Resources\mipmap-mdpi\imageHappySelected.png" />
+    <AndroidResource Include="Resources\mipmap-mdpi\imageHappyUnselected.png" />
+    <AndroidResource Include="Resources\mipmap-mdpi\imageSadSelected.png" />
+    <AndroidResource Include="Resources\mipmap-mdpi\imageSadUnselected.png" />
+    <AndroidResource Include="Resources\mipmap-mdpi\userimage.png" />
     <AndroidResource Include="Resources\values\Strings.xml" />
     <AndroidResource Include="Resources\mipmap-hdpi\Icon.png" />
     <AndroidResource Include="Resources\mipmap-mdpi\Icon.png" />
@@ -229,6 +236,28 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Dimens.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\SelfDiagnosisPage1.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\roundedshape.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\radiobutton_rounded_corner.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\AppToolBarWithHeading.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\RegistrationLayout.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\mipmap-mdpi\imageRegistration.PNG" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Annotations.28.0.0.3\build\monoandroid90\Xamarin.Android.Support.Annotations.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Annotations.28.0.0.3\build\monoandroid90\Xamarin.Android.Support.Annotations.targets')" />

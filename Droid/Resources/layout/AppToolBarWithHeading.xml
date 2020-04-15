@@ -23,20 +23,15 @@
       android:layout_height="wrap_content"
       android:layout_marginStart="5dp"
       android:layout_marginLeft="5dp"
-      android:layout_marginTop="5dp"
+      android:layout_marginTop="15dp"
       android:layout_marginBottom="5dp"
       android:gravity="left"
-      android:text="Hello Ramya"
+      android:textStyle="bold"
+      android:text="Self Diagnosis"
       app:layout_constraintStart_toEndOf="@+id/toolbar"
       tools:layout_editor_absoluteY="32dp" />
 
-    <ImageView
-      android:layout_width="50dp"
-      android:layout_height="50dp"
-      android:layout_gravity="right"
-      android:layout_marginRight="5dp"
-      android:src="@mipmap/userimage"></ImageView>
-
+    
   </androidx.appcompat.widget.Toolbar>
 
 

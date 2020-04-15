@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using Android;
 using Android.App;
 using Android.Content;
 using Android.Graphics;
@@ -15,11 +15,12 @@ using Android.Widget;
 using AndroidX.AppCompat.App;
 using AndroidX.Core.Content;
 using AndroidX.ViewPager.Widget;
+using BluetoothTestApp.Droid.Views.SelfDiagnosis;
 using BluetoothTestApp.Droid.Views.ViewAdapter;
 
 namespace BluetoothTestApp.Droid.Views
 {
-    [Activity(MainLauncher = true, Label = "Details",Theme = "@style/ActionBarTheme", Icon = "@mipmap/icon")]
+    [Activity(MainLauncher = true,Label = "Details",Theme = "@style/ActionBarTheme", Icon = "@mipmap/icon")]
     public class StartupActivity : AppCompatActivity
     {
         private ViewPager _viewPager;
@@ -39,6 +40,7 @@ namespace BluetoothTestApp.Droid.Views
             _buttonLogin = FindViewById<Button>(Resource.Id.buttonLogin);
             _buttonRegistration = FindViewById<Button>(Resource.Id.buttonRegistration);
             _buttonRegistration.Click += NavigateToRegistration;
+            _buttonLogin.Click += NavigateToLogin;
             _colors = new int[]
             {
                 Resource.Color.red,
@@ -81,10 +83,14 @@ namespace BluetoothTestApp.Droid.Views
 
         }
 
+        private void NavigateToLogin(object sender, EventArgs e)
+        {
+           
+        }
+
         private void NavigateToRegistration(object sender, EventArgs e)
         {
-            Intent intent = new Intent(this, typeof(DashBoardActivity));
-            //intent.PutExtra("EmployeeId", employeeId);
+            Intent intent = new Intent(this, typeof(RegisterationActivity));
             StartActivity(intent);
         }
 
