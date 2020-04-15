@@ -66,8 +66,7 @@ namespace BluetoothTestApp.Services
                 var json = JsonConvert.SerializeObject(body);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var htpcl = GetHttpClient();
-                var m = await htpcl.PostAsync(uri, content);               
+                GetHttpClient().PostAsync(uri, content);               
             }
             catch (Exception exception)
             {
