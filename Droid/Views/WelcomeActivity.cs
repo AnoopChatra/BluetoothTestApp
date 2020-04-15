@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Widget;
+using BluetoothTestApp.Services;
 
 namespace BluetoothTestApp.Droid
 {
@@ -22,8 +24,12 @@ namespace BluetoothTestApp.Droid
 
             btViewNearBy.Click += OnbtViewNearByClick;
 
+            MindsphereAuthService.Instance.GenerateAccessToken();
+
+            Task.Delay(500);
         }
 
+       
         protected override void OnResume()
         {
             base.OnResume();
@@ -45,6 +51,5 @@ namespace BluetoothTestApp.Droid
                 StartActivity(intent);
             }
         }
-
     }
 }

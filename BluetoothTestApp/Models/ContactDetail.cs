@@ -6,6 +6,6 @@ namespace BluetoothTestApp.Models
         public int SourceEmployeeId { get; set; }
         public int ContactEmployeeId { get; set; }
         public int SignialStrength { get; set; }
-        public DateTime TimeStamp { get; set; }
+        public string TimeStamp { get; set; }
     }
 }

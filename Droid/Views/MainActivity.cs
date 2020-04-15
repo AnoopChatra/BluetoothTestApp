@@ -57,7 +57,7 @@ namespace BluetoothTestApp.Droid
 
             _empList = new List<int>();
 
-            _bluetoothLeclintService.RegisterOberver((IBleDeviceScanResult)this);
+            _bluetoothLeclintService.RegisterOberver(this);
 
             UpdateUi();
         }
@@ -108,6 +108,7 @@ namespace BluetoothTestApp.Droid
             {
                 if (grantResults[0] == Permission.Granted)
                 {
+                    RequestBatteryOptimizationExclude();
                     _bluetoothLeclintService.StartBluetoothLeScan(employeeId);
                 }
                 else
