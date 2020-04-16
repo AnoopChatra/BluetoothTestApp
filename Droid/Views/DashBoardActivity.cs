@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Text.RegularExpressions;
 using Android.App;
 using Android.Content;
 using Android.OS;
@@ -31,6 +31,7 @@ namespace BluetoothTestApp.Droid.Views
         {
             Intent intent = new Intent(this, typeof(SlefDiagnosisActivity1));
             StartActivity(intent);
+
         }
     }
 }
