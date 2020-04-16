@@ -7,7 +7,8 @@ namespace BluetoothTestApp.Services
 {
     public class EmployeeService
     {      
-        private const string url = "https://gateway.eu1.mindsphere.io/api/covidbackend-ctblrdev/V1/proximity/add";
+        private const string url = " https://gateway.eu1.mindsphere.io/api/covidbackend-ctblrdev/V1/employee/add";
+
         private readonly HttpService _httpService;
 
         public EmployeeService()

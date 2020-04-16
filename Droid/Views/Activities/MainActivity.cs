@@ -1,4 +1,5 @@
-﻿using Android.App;
+﻿using System;
+using Android.App;
 using Android.Widget;
 using Android.OS;
 using Android.Bluetooth;
@@ -9,8 +10,9 @@ using Android;
 using Android.Content.PM;
 using BluetoothTestApp.Droid.Views;
 using BluetoothTestApp.Droid.Views.ViewAdapter;
-using Android.Net;
 using AndroidX.Core.App;
+using BluetoothTestApp.Droid.Services.Uitilities;
+using Uri = Android.Net.Uri;
 
 namespace BluetoothTestApp.Droid
 {
@@ -46,8 +48,10 @@ namespace BluetoothTestApp.Droid
             ActivityContext = this;
 
             _employeeListViewItemList = new List<EmployeeListViewItem>();
-            employeeId = Intent.GetIntExtra("EmployeeId", 0);
-             
+            AppPreferences ap = new AppPreferences(Application.Context);
+            employeeId = Int32.Parse(ap.GetAccessKey(SharedPreferenceKey.EmployeeId)); //Intent.GetIntExtra("EmployeeId", 0);
+
+
             _bluetoothAdapter = AndroidBluetoothServiceProvider.Instance.GetBluetoothAdapter();           
             _bluetoothLeService = BluetoothLeGattService.Instance;
             _bluetoothLeclintService = BluetoothLEClientService.Instance;

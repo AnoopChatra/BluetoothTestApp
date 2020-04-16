@@ -8,7 +8,7 @@ using BluetoothTestApp.Services;
 
 namespace BluetoothTestApp.Droid
 {
-    [Activity(MainLauncher = true, Label = "ContactScreen", Icon = "@mipmap/icon")]
+    [Activity(Label = "ContactScreen", Icon = "@mipmap/icon")]
     public class WelcomeActivity : Activity
     {
         private EditText etEmployeeId;

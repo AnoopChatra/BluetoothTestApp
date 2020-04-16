@@ -17,6 +17,7 @@ namespace BluetoothTestApp.Services
         private bool _isRefreshTokenCalled;
 
         private static HttpService _httpServiceInstance;
+
         public static HttpService Instance
         {
             get
@@ -40,7 +41,8 @@ namespace BluetoothTestApp.Services
                 var json = JsonConvert.SerializeObject(body);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                                 
-                HttpResponseMessage response = await _httpClient.PostAsync(uri, content);
+                
+                HttpResponseMessage response = await GetHttpClient().PostAsync(uri, content);
                
                 if (HttpStatusCode.Unauthorized == response.StatusCode)
                 {
@@ -48,6 +50,7 @@ namespace BluetoothTestApp.Services
                     TokenExpired tokenExpired = JsonConvert.DeserializeObject<TokenExpired>(responseBody);
                     if (tokenExpired.error.Equals("invalid_token"))
                     {
+                        _httpClient = null;
                         await MindsphereAuthService.Instance.GenerateAccessToken();
                         ////TODO : Handle indefinite loop
                         await PostAsync(url, body);
@@ -82,7 +85,7 @@ namespace BluetoothTestApp.Services
 
         private HttpClient GetHttpClient()
         {
-            if(null == _httpClient)
+            if (null == _httpClient)
             {
                 _httpClient = new HttpClient();
                 _httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + MindsphereAuthService.Instance.AccessToken);

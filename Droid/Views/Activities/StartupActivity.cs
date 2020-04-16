@@ -18,7 +18,7 @@ using AndroidX.ViewPager.Widget;
 using BluetoothTestApp.Droid.Views.SelfDiagnosis;
 using BluetoothTestApp.Droid.Views.ViewAdapter;
 
-namespace BluetoothTestApp.Droid.Views
+namespace BluetoothTestApp.Droid
 {
     [Activity(MainLauncher = true,Label = "Details",Theme = "@style/ActionBarTheme", Icon = "@mipmap/icon")]
     public class StartupActivity : AppCompatActivity

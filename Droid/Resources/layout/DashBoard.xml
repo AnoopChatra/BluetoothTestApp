@@ -63,7 +63,6 @@ android:id="@+id/cardViewSelfDiagnosis"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="20dp"
-
                     android:layout_gravity="center"
                     android:text="Self Diagnosis">
 
