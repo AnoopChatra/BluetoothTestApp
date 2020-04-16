@@ -7,13 +7,10 @@ using Android.Content;
 using BluetoothTestApp.Droid.Services;
 using Android;
 using Android.Content.PM;
-using BluetoothTestApp.Droid.Services.BluetoothLeClient;
 using BluetoothTestApp.Droid.Views;
 using BluetoothTestApp.Droid.Views.ViewAdapter;
-using BluetoothTestApp.Droid.Services.Uitilities;
 using Android.Net;
 using AndroidX.Core.App;
-
 
 namespace BluetoothTestApp.Droid
 {

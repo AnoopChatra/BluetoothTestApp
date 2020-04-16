@@ -8,16 +8,16 @@ namespace BluetoothTestApp.Services
     public class ProximityServices
     {
         private const string url = "https://gateway.eu1.mindsphere.io/api/covidbackend-ctblrdev/V1/proximity/add";
-        private HttpService _httpService;
+        private readonly HttpService _httpService;
 
         public ProximityServices()
         {
             _httpService = HttpService.Instance;
         }
 
-        public async Task<HttpStatusCode> AddProximityInfo(ProximityData proximityData)
+        public void UploadProximityInfo(ProximityData proximityData)
         {
-           return await _httpService.Post(url, proximityData);           
+            _httpService.Post(url, proximityData);           
         }
     }
 }

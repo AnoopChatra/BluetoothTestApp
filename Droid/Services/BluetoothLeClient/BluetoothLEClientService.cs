@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Android.App;
 using Android.Bluetooth;
 using Android.Bluetooth.LE;
-using Android.Content;
 using Android.OS;
 using BluetoothTestApp.Core.Services;
-using BluetoothTestApp.Droid.Services.Uitilities;
 using BluetoothTestApp.Models;
 using BluetoothTestApp.Services;
 
-namespace BluetoothTestApp.Droid.Services.BluetoothLeClient
+namespace BluetoothTestApp.Droid.Services
 {
     public class BluetoothLEClientService 
     {
@@ -41,9 +38,7 @@ namespace BluetoothTestApp.Droid.Services.BluetoothLeClient
                     return _instance;
                 }
             }
-        }
-
-        
+        }        
 
         public BluetoothLEClientService()
         {
@@ -110,7 +105,7 @@ namespace BluetoothTestApp.Droid.Services.BluetoothLeClient
                 };
                 _restService.SaveContactDetail(contactDetail);
                 ProximityData proximityData = GetProximityData(_employeeId, contactEmployeeId, eventArgs.ScanResult.Rssi);
-                _proximityServices.AddProximityInfo(proximityData);              
+                _proximityServices.UploadProximityInfo(proximityData);              
             }          
         }
       

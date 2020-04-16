@@ -11,9 +11,10 @@ namespace BluetoothTestApp.Services
 {
     public class HttpService
     {
-        private readonly HttpClient _httpClient;
+        private HttpClient _httpClient;   
+        
         private const string Logtag = "HttpService";
-        private readonly object _lockObject;
+        private bool _isRefreshTokenCalled;
 
         private static HttpService _httpServiceInstance;
         public static HttpService Instance
@@ -31,26 +32,26 @@ namespace BluetoothTestApp.Services
             }
         }           
 
-        private HttpService()
-        {
-            _httpClient = new HttpClient();
-        }
-
-        public async Task<HttpStatusCode> Post(string url, object body)
+        public async Task<HttpStatusCode> PostAsync(string url, object body)
         {
             try
-            {
+            {               
                 var uri = new Uri(string.Format(url, string.Empty));
                 var json = JsonConvert.SerializeObject(body);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                _httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + MindsphereAuthService.Instance.AccessToken);
-                
+                                
                 HttpResponseMessage response = await _httpClient.PostAsync(uri, content);
-
-                if(HttpStatusCode.Unauthorized == response.StatusCode)
+               
+                if (HttpStatusCode.Unauthorized == response.StatusCode)
                 {
-                    await RefreshToken(response);
-                    await Post(url, body);                   
+                    var responseBody = await response.Content.ReadAsStringAsync();
+                    TokenExpired tokenExpired = JsonConvert.DeserializeObject<TokenExpired>(responseBody);
+                    if (tokenExpired.error.Equals("invalid_token"))
+                    {
+                        await MindsphereAuthService.Instance.GenerateAccessToken();
+                        ////TODO : Handle indefinite loop
+                        await PostAsync(url, body);
+                    }                                         
                 }
                 return response.StatusCode;
             }
@@ -61,14 +62,50 @@ namespace BluetoothTestApp.Services
             return HttpStatusCode.BadRequest;
         }
 
-        private async Task RefreshToken(HttpResponseMessage response)
+        public void Post(string url, object body)
         {
-            var responseBody = await response.Content.ReadAsStringAsync();
-            TokenExpired tokenExpired = JsonConvert.DeserializeObject<TokenExpired>(responseBody);
-            if (tokenExpired.error.Equals("invalid_token"))
+            try
             {
-                await MindsphereAuthService.Instance.GenerateAccessToken();               
+                ////TODO : need to await the call ideally.
+                RefreshTokenOnReguularTimeInterval();
+                var uri = new Uri(string.Format(url, string.Empty));
+                var json = JsonConvert.SerializeObject(body);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                GetHttpClient().PostAsync(uri, content);               
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine(Logtag + "-- exception in post --" + exception.Message + exception.StackTrace);
+            }           
+        }      
+
+        private HttpClient GetHttpClient()
+        {
+            if(null == _httpClient)
+            {
+                _httpClient = new HttpClient();
+                _httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + MindsphereAuthService.Instance.AccessToken);
+                return _httpClient;
+            }
+            else
+            {
+                return _httpClient;
             }
         }
+
+        private async Task RefreshTokenOnReguularTimeInterval()
+        {
+            if (!_isRefreshTokenCalled)
+            {
+                _isRefreshTokenCalled = true;
+                TimeSpan timeSpan = DateTime.Now - MindsphereAuthService.Instance.AccessTokenTimeStamp;
+                if (timeSpan.Minutes > 25)
+                {
+                    await MindsphereAuthService.Instance.GenerateAccessToken();
+                }
+                _isRefreshTokenCalled = false;
+            }
+        }        
     }
 }

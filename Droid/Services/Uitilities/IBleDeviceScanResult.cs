@@ -1,5 +1,5 @@
 ﻿using System;
-namespace BluetoothTestApp.Droid.Services.Uitilities
+namespace BluetoothTestApp.Droid.Services
 {
     public interface IBleDeviceScanResult
     {

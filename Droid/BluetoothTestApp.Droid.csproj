@@ -153,6 +153,8 @@
     <Compile Include="Views\ViewAdapter\EmployeeListViewItem.cs" />
     <Compile Include="Views\ViewAdapter\EmployeeNearByListViewAdapter.cs" />
     <Compile Include="Services\Uitilities\IBleDeviceScanResult.cs" />
+    <Compile Include="Views\Activities\MainActivity.cs" />
+    <Compile Include="Views\Activities\WelcomeActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -257,6 +259,14 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Services\" />
+    <Folder Include="Services\BluetoothLeGattServer\" />
+    <Folder Include="Services\AndroidBluetooth\" />
+    <Folder Include="Views\" />
+    <Folder Include="Services\BluetoothLeClient\" />
+    <Folder Include="Services\Uitilities\" />
+    <Folder Include="Views\ViewAdapter\" />
+    <Folder Include="Views\Activities\" />
     <AndroidResource Include="Resources\mipmap-mdpi\imageRegistration.PNG" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
